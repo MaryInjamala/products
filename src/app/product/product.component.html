@@ -1,0 +1,188 @@
+<!-- TopNavBar  -->
+<ul>
+  <button (click)="opened=!opened" mat-button class="menu-button"><mat-icon>menu</mat-icon></button>
+  <nav>
+    <ul class="nav_links">
+       <li> <a routerLink="/dashboard"><mat-icon>home</mat-icon>Home</a></li>
+       <li><a routerLink="/add" ><mat-icon>add</mat-icon>Add Items</a></li>
+       <li><a routerLink="/product" ><mat-icon>list</mat-icon>List</a></li>
+    </ul>
+</nav>
+ <a class="logout" routerLink="">
+  <mat-icon aria-hidden="false" aria-label="Example Logout icon">logout</mat-icon>Logout</a>
+</ul>
+
+
+
+
+<!-- SideNavBar  -->
+<mat-sidenav-container>
+  <mat-sidenav  class="mat-elevation-z8" mode="side" [(opened)]="opened">
+    
+          <button mat-button class="menu-button" routerLink="/dashboard" >  
+              <mat-icon>home</mat-icon>
+              <span>Home</span>
+          </button>
+          <button mat-button class="menu-button"  routerLink="/add">
+              <mat-icon>add</mat-icon>
+              <span>Add Products</span>
+            </button>
+          <button mat-button class="menu-button" routerLink="/product">
+              <mat-icon>list</mat-icon>
+              <span>Show Products</span>
+          </button>
+          
+          <button mat-button class="menu-button">
+              <mat-icon>help</mat-icon>
+              <span>Help</span>
+          </button>
+
+          <button mat-button class="menu-button" routerLink="/report">
+            <mat-icon>description</mat-icon>
+            <span>Generate Report</span>
+        </button>
+  </mat-sidenav>
+ <mat-sidenav-content>
+
+
+
+
+
+
+<!-- content -->
+<!-- search -->
+<!-- <form class="example-form">
+  <mat-form-field class="example-full-width">
+  <span matPrefix> </span>
+  <input type="text" matInput placeholder="Search" name= "search" [(ngModel)]= "search">
+  <button matSuffix mat-button><mat-icon >search</mat-icon></button>
+  </mat-form-field>
+  
+  {{search}}
+  </form> -->
+
+
+ <!-- search -->
+ <form class="example-form">
+  
+    <mat-icon>search</mat-icon>
+    <mat-form-field>
+      <input  matInput class="search"  (keyup)="applyFilter($any($event.target).value)" placeholder="Search...">
+    </mat-form-field>
+</form>
+<!-- <button matSuffix mat-button><input type="tel" matInput placeholder="Search" name= "search" [(ngModel)]= "search">
+<mat-icon >search</mat-icon></button> -->
+
+   <!-- delete -->
+ <div  style="float:right">  
+  <button class="del" (click)="DeleteData()"> <mat-icon>delete</mat-icon></button>
+      </div>  
+     
+  <!-- add  -->
+<div style="float: right">
+<button class="ad" routerLink="/add" ><mat-icon>add</mat-icon>Add Products</button></div> 
+
+<!-- help -->
+<h1 style="font-family:fantasy"><mat-icon>help</mat-icon>products list</h1>
+
+ 
+
+
+
+
+
+  <!-- Generate Report -->
+  
+    <!-- <div mat-button  class="report"> -->
+      <!-- <div class="dropdown"> -->
+        <button class="Generate" routerLink="/report"><mat-icon>description</mat-icon>
+       Generate Report</button>
+          <!-- <div class="dropdown-content">
+            <button class="report-btn">Excel</button><br>
+            <button class="report-btn" (click)="pdf()">PDF</button> -->
+            
+          <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
+ 
+
+
+       
+
+<!--table  -->
+<div style="padding: 20px 20px 20px 20px" class="mat-elevation-z8">
+  
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"> 
+
+    
+
+    <!-- select box -->
+    <ng-container matColumnDef="checked">
+      <th mat-header-cell  *matHeaderCellDef > 
+        <mat-checkbox  (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"  
+          [indeterminate]="selection.hasValue() && !isAllSelected()">
+</mat-checkbox> 
+</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(element) : null"
+                      [checked]="selection.isSelected(element)" [(ngModel)]="element.checked">
+        </mat-checkbox>
+      </td>
+    </ng-container> 
+ 
+    <!-- data -->
+     <ng-container matColumnDef="productId">
+       <th mat-header-cell mat-sort-header *matHeaderCellDef sortActionDescription="Sort by number"> ID </th>
+       <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+     </ng-container> 
+     <ng-container matColumnDef="productName">
+       <th mat-header-cell mat-sort-header *matHeaderCellDef> Name </th>
+       <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+     </ng-container>
+     <ng-container matColumnDef="productType">
+       <th mat-header-cell mat-sort-header *matHeaderCellDef> Type </th>
+       <td mat-cell *matCellDef="let element"> {{element.productType}} </td>
+     </ng-container>
+     <ng-container matColumnDef="productDesc">
+       <th mat-header-cell mat-sort-header *matHeaderCellDef> Description </th>
+       <td mat-cell *matCellDef="let element"> {{element.productDesc}} </td>
+     </ng-container>
+     <ng-container matColumnDef="productQuantity">
+         <th mat-header-cell mat-sort-header *matHeaderCellDef> Quantity </th>
+         <td mat-cell *matCellDef="let element"> {{element.productQuantity}} </td>
+     </ng-container>
+     <ng-container matColumnDef="productPrice">
+         <th mat-header-cell mat-sort-header *matHeaderCellDef> Price </th>
+         <td mat-cell *matCellDef="let element"> {{element.productPrice}} </td>
+     </ng-container>
+     <ng-container matColumnDef="Productmul">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Mul Desc </th>
+      <td mat-cell *matCellDef="let element"> {{element.Productmul}} </td>
+  </ng-container>
+  <ng-container matColumnDef="upload">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef> file-upload</th>
+    <td mat-cell *matCellDef="let element"> {{element.upload}} </td>
+</ng-container>
+<ng-container matColumnDef="check">
+  <th mat-header-cell mat-sort-header *matHeaderCellDef> Details</th>
+  <td mat-cell *matCellDef="let element"> {{element.check}} </td>
+</ng-container>
+     
+  <!-- data -->
+
+     
+     <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+     <tr mat-row *matRowDef="let row; columns: displayedColumns;" > </tr>
+   </table>
+
+  
+  <!-- pagination -->
+    <div style="width: 100%">
+      <mat-paginator 
+      [length]="100" [pageSize]="7" [pageSizeOptions]="[7, 14, 25]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+ </div>
+ 
