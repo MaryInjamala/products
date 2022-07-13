@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ProductService } from '../product.service';
-import { MatSort, Sort } from '@angular/material/sort'
+import { MatTable } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
 import { SelectorMatcher } from '@angular/compiler';
 import { MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer} from '@angular/cdk/a11y';
@@ -9,8 +10,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Data } from '@angular/router';
 import { row } from '@syncfusion/ej2-angular-grids';
 import { Router, ActivatedRoute } from '@angular/router';
-//import { ToastrDisplayService } from 'app/product/toastr-display.service';
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({ 
   selector: 'product.component',
@@ -32,14 +33,15 @@ export class ProductComponent implements OnInit{
   Productmul: any;
   upload: any;
   check: any;
-  displayedColumns: string[] = ['checked', 'productId', 'productName', 'productType', 'productDesc', 'productQuantity', 'productPrice', 'Productmul', 'upload', 'check'];
+  displayedColumns: string[] = ['checked', 'productId', 'productName', 'productType', 'productDesc', 'productQuantity', 'productPrice','action'];
   dataSource : any;
   rows: any;
   opened = false;
   selection = new SelectionModel < Data > (true, []); 
   router: any;
-  
-
+  action: any;
+  key: any;
+  date: any;
 
   /** Whether the number of selected elements matches the total number of rows. */  
 isAllSelected() {  
@@ -57,16 +59,38 @@ masterToggle() {
 
   @ViewChild(MatSort) sort: any;
   @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatTable,{static:true}) table: any;
 
   private _liveAnnouncer: any;
 
-  constructor(private productService : ProductService , _liveAnnouncer: LiveAnnouncer) { 
+  constructor(private productService : ProductService , _liveAnnouncer: LiveAnnouncer, private dialog: MatDialog) {}
 
+  openDialog(){
+    this.dialog.open(DialogBoxComponent,{
+      width: '30%',
+    }).afterClosed().subscribe(data=>{
+        if(data ==='save'){
+          console.log("success");
+      this.getProductList()
+        }
+    });
   }
+  
+  editProduct(row: any){
+    this.dialog.open(DialogBoxComponent,{
+      width: '30%',
+      data: row
+    }).afterClosed().subscribe(data => {
+      if(data ==='save'){
+      console.log("success");
+      this.getProductList()}
+    });
+  }
+ 
+
+
  //get products
   ngOnInit(){ 
-    
-  
     this.getProductList()
   }
   getProductList(){
@@ -100,7 +124,20 @@ masterToggle() {
   }
 
 //delete
-DeleteData() { 
+ 
+// reloadData(){
+  
+// }
+// deleteProduct(productId: number) { 
+//   this.productService.delete(productId).subscribe(data => { 
+//     console.log("success");
+//     this.reloadData();
+//   })
+  
+//   }
+
+  //delete
+  deleteProduct() { 
   const numSelected = this.selection.selected;  
   console.log(numSelected[0]['productId'])
   if (numSelected.length > 0) {  
@@ -115,29 +152,8 @@ DeleteData() {
       }  
   
 } 
-
-
-// pdf(){
-//     this.productService.pdf().subscribe((response: any) => {
-//       const blob = new Blob([response], { type: 'string' });
-//       const url= window.URL.createObjectURL(blob);     
-//       const link = document.createElement('a');
-//       document.body.appendChild(link);
-//       link.href = url;
-//       link.download = 'pRoduct_report.pdf';
-//       link.click();
-//     }
-//       // (errorResp) => {
-//       //   this.toastrDisplayService.error(
-//       //     this.localeStrings.DOWNLOAD_PRODUCT_REPORT_FAILED,
-//       //     errorResp.error
-//       //   );
-//       // }
-//       // );
-  
-
-
-// }
+               
+    
  
   ngAfterViewInit() {}
 

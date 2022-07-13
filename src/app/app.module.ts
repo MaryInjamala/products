@@ -36,6 +36,9 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ReportComponent } from './report/report.component';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { ReportComponent } from './report/report.component';
     LoginComponent,
     ProductWrapperComponent,
     ReportComponent,
+    DialogBoxComponent,
 
 
   ],
@@ -79,6 +83,8 @@ import { ReportComponent } from './report/report.component';
     MatDatepickerModule,
     NgSelectModule,
     MatNativeDateModule,
+    MatDialogModule,
+
     
 
  

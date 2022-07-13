@@ -33,17 +33,26 @@ export class ProductService {
   }
 
 
-  public delete(productId: any) {
-    return this.http.post<any>(`${this.apiUrl}/deleteproduct`, productId);
+  public delete(productIds: any) {
+    return this.http.post<any>(`${this.apiUrl}/deleteproduct`, productIds);
   }
   
-  public getVal():Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/download`);
+  public getValByPDF():Observable<any> {
+    return this.http.get(`${this.apiUrl}/download/pdf`, {responseType:'blob'});
   }
 
-  // download(file: string | undefined): Observable<Blob> {
-  //   return this.http.get(`${environment.baseUrl}/files/${file}`, {
-  //     responseType: 'blob'
-  //   });
-  // }
+  public getValByExcel():Observable<any> {
+    return this.http.get(`${this.apiUrl}/download/excel`, {responseType:'blob'});
+  }
+
+  public getValByCSV():Observable<any> {
+    return this.http.get(`${this.apiUrl}/download/csv`, {responseType:'blob'});
+  }
+
+  public updateProduct(data: any, productId : any) {
+    return this.http.post<any>(`${this.apiUrl}/updateProduct`, data, productId);
+  }
+
+ 
+  
 }

@@ -49,130 +49,102 @@
   <br>
   
     
-  
-<form class="form"> 
+<!-- form -->
+<form class="form" (ngSubmit)="createProduct()"> 
   
      <h1 >ADD Products</h1>
     <p class="link"> <a href="https://material.angular.io/" >click here</a> for Angular Material</p>
     
 
-
-<!-- Id -->
-
-        <mat-form-field class="example-full-width" appearance="fill"><mat-label>ID</mat-label>
-      <input matInput id="Id"  name="productId" [(ngModel)]="productId" required><br><br>
+<!-- Id -->  
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>ID</mat-label>
+      <input matInput [(ngModel)]="productId" name="productId">
     </mat-form-field>
            
 <!-- Name -->
-
-       <mat-form-field class="example-full-width" appearance="fill"><mat-label>Name</mat-label>
-      <input matInput id="Name" class="form-control" name="productName" [(ngModel)]="productName" required><br><br>
+       <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)]="productName" name="productName">
     </mat-form-field>
      
-<!-- Price   -->
-      
-<mat-form-field class="select" [(ngModel)]="productPrice" name="productPrice">
+<!-- Price   -->   
+<mat-form-field class="select" appearance="fill">
   <mat-label>Set Price</mat-label>
   <mat-select [(value)]="selected" [(ngModel)]="productPrice" name="productPrice" required>
-    <mat-option *ngFor="let prices of price"  [value]="prices.value" name="productPrice">
+    <mat-option *ngFor="let prices of price"  [value]="prices.value">
       {{prices.viewValue}}
     </mat-option>
   </mat-select>
 </mat-form-field>
-<!-- <p>price is : {{selected}}</p> -->
-      <!-- <input id="Price" type="text" class="form-control" name="productPrice" [(ngModel)]="productPrice" required> -->
-
-
-
-
-
 
 <!-- Multiple select -->
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Select Multiple</mat-label>
-      <mat-select [formControl]="prod" multiple required>
-        <mat-option *ngFor="let prod of prodList" required [value]="prod">{{prod}}</mat-option>
+      <mat-select [(ngModel)]="prod" multiple name="prod" >
+        <mat-option *ngFor="let prod of prodList"  [value]="prod">{{prod}}</mat-option>
       </mat-select>
     </mat-form-field>
-
-
-
-
 
 <!-- Description   -->
 <mat-form-field class="example-full-width" appearance="fill">
   <mat-label>Description</mat-label>
-  <textarea matInput placeholder="about phone" name="productDesc" required [(ngModel)]="productDesc" ></textarea>
+  <textarea matInput placeholder="about phone" name="productDesc"  [(ngModel)]="productDesc" ></textarea>
 </mat-form-field>
-<!-- <input id="Desc" type="text" class="form-control" name="productDesc" [(ngModel)]="productDesc" required> -->
 
-
-
-<br>
-<!-- Type -->
-        <label>Type: </label>
-        <mat-radio-group aria-label="Select an option" id="Type" name="productType" class="type" [(ngModel)]="productType" required>
-          <mat-radio-button value="1">Laptop</mat-radio-button>
-          <mat-radio-button value="2">Mobile</mat-radio-button>
-          <mat-radio-button value="2">Tablet</mat-radio-button>
-        </mat-radio-group>
-
-
-<br><br>
+<!-- Date picker -->
+<mat-form-field appearance="fill" class="example-full-width">
+  <mat-label>Choose a date</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="date" name="date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
 
 <!-- quantity-->
      
       <div class="stepper-input stepper__input">
-        <label>Quantity</label>&nbsp;
-         <button class="toggle-less"> <mat-icon (click)="minus()">remove</mat-icon></button>
-      
-          <div class="form-check-inline">
-            <mat-form-field class="qn" appearance="fill">
-              <input matInput name="productQuantity" [value]="quantity" [(ngModel)]="productQuantity" required>
+        <button class="toggle-less"><mat-icon (click)="minus()">remove</mat-icon></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="form-check-inline">
+            <mat-form-field appearance="fill" class="example-full-width">
+              <mat-label>Quantity</mat-label>
+              <input matInput name="productQuantity" [value]="quantity" [(ngModel)]="productQuantity">
             </mat-form-field>
            </div>
 
-         <button class="toggle-more" (click)="plus()"> <mat-icon> add</mat-icon></button>
+         <button class="toggle-more" (click)="plus()"><mat-icon>add</mat-icon></button>
       </div>
    
-        
+   <!-- Type -->
+   <label>Type: </label>
+   <mat-radio-group aria-label="Select an option" id="Type" name="productType" class="type" [(ngModel)]="productType" required>
+     <mat-radio-button value="1">Laptop</mat-radio-button>
+     <mat-radio-button value="2">Mobile</mat-radio-button>
+     <mat-radio-button value="2">Tablet</mat-radio-button>
+   </mat-radio-group>     
 
-<br>
 
 
-<!-- Date picker -->
-<p>Date:</p>
-<mat-form-field appearance="fill" class="example-full-width">
-  <mat-label>Choose a date</mat-label>
-  <input matInput [matDatepicker]="picker">
-  <mat-hint>MM/DD/YYYY</mat-hint>
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-    <!-- <p>Simple datepicker</p> -->
-    <!-- <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next"></ngb-datepicker> -->
-    <!-- <input matInput [matDatepicker]="myDatePicker">
-    <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
-    <mat-datepicker #myDatePicker>  </mat-datepicker> -->
 
+
+    
 <br><br>
 
 <!-- check box-->
-<section class="example-section" [formGroup]="toppings" name="checkbox" [(ngModel)]="checkbox">
+<section class="example-section" [formGroup]="toppings" name="checkbox" >
   <p>Select your Options:</p>
-  <p><mat-checkbox formControlName="pepperoni">storage</mat-checkbox></p>
-  <p><mat-checkbox formControlName="extracheese">RAM</mat-checkbox></p>
-  <p><mat-checkbox formControlName="mushroom">camera</mat-checkbox></p>
+  <p><mat-checkbox formControlName="storage">storage</mat-checkbox></p>
+  <p><mat-checkbox formControlName="RAM">RAM</mat-checkbox></p>
+  <p><mat-checkbox formControlName="camera">camera</mat-checkbox></p>
 </section>
 <br>
 
 <!-- Upload -->      
 <p>upload files</p>
-<input type="file" class="file-upload" onchange="console.log(event.target.files)" name="upload" [(ngModel)]="upload">
+<input type="file" class="file-upload" onchange="console.log(event.target.files)" name="upload" >
      
   
 <br><br>
-<button mat-flat-button color="primary" (click)="createProduct()" >submit</button>
+<button mat-flat-button color="primary" (click)="createProduct()">submit</button>
    
     </form>
        

@@ -2,11 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild , Input } from '@angular/core'
 import { ProductService } from '../product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
-import { IDropdownSettings, } from 'ng-multiselect-dropdown';
-
-
-
-// import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import { IDropdownSettings, } from 'ng-multiselect-dropdown'
 
 
 interface Price {
@@ -22,10 +18,6 @@ interface Price {
 })
 export class AddComponent implements OnInit{
   toppings: FormGroup;
-  // checked = false;
-  // indeterminate = false;
-  // labelPosition: 'before' | 'after' = 'after';
-  // disabled = false;
   title = 'angular-key-press-example';
   // Only Integer Numbers
   keyPressNumbers(event: any) {
@@ -43,15 +35,20 @@ export class AddComponent implements OnInit{
 
   //Multiple select
   prod = new FormControl('');
-  prodList: string[] = ['New mobile', 'New product', 'Amazing features', 'New version', 'New Themes', 'Color'];
+  prodList: { [key: string]: Object }[] = [
+    {item_id: 1, item_text: 'New mobile'}, 
+    {item_id: 2, item_text: 'New product'}, 
+    {item_id: 3, item_text: 'Amazing features'}, 
+    {item_id: 4, item_text: 'New version'}, 
+    {item_id: 5, item_text: 'New Themes'}, 
+    {item_id: 6, item_text: 'Color'}
+];
 
 
 
 
  
 
-
-////
     productId: any;
     productName:  any;
     productDesc: any;
@@ -62,36 +59,29 @@ export class AddComponent implements OnInit{
     upload: any;
     check: any;
     checkbox: any;
-    
+    date: any;
  
     
 
   constructor(
       private productService : ProductService,
       private router: Router,
-      fb: FormBuilder
+      fb: FormBuilder,
+      private formBuilder: FormBuilder   
       ) {
         this.toppings = fb.group({
-          pepperoni: false,
-          extracheese: false,
-          mushroom: false,
+          storage: false,
+          RAM: false,
+          camera: false,
         });
     }
+
+
+
    
  
-
-  ngOnInit(): void {
-    
-  }
-  //quantity
-// quantity:number=1;
-// i=1
-// pluse(){
-//   if(this.i !=5){
-//     this.i++;
-//     this.quantity=this.i;
-//   }
-// }
+  ngOnInit(): void {}
+  
 
 
 //quantity
@@ -111,7 +101,7 @@ minus()
 }
 
 
-  // createNewProduct
+  //createNewProduct
   createProduct(){
     let newProduct = [{
       productId: this.productId,
@@ -132,6 +122,9 @@ minus()
     this.router.navigate(['/product']); 
     
   }
+
+
+  //dropdown
   selected = '';
   price: Price[] = [
     {value: '15000-20000', viewValue: '15000-20000'},

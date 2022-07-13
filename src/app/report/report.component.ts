@@ -13,20 +13,7 @@ export class ReportComponent implements OnInit {
 
   constructor(private productService : ProductService) { }
 
-  // pdf(){
-  //   this.productService.pdf().subscribe((response: any) => {
-  //     const blob = new Blob([response], { type: 'string' });
-  //     const url= window.URL.createObjectURL(blob);     
-  //     const link = document.createElement('a');
-  //     document.body.appendChild(link);
-  //     link.href = url;
-  //     link.download = 'Product_report.pdf';
-  //     link.click();
-  //   }
-     
-  //     );}
-
-
+  
 
      
 
@@ -34,30 +21,44 @@ export class ReportComponent implements OnInit {
   }
   selectedGroup: any;
   getVal() {
-    //console.log(this.selectedGroup); // returns selected object
-    //console.log(this.selectedGroup.id); // returns selected option's id
-    //console.log(this.selectedGroup.name); // returns selected option's name
-
-    this.productService.getVal().subscribe(
-      (data:any) => {
-        console.log(this.selectedGroup.id);
-      if(data.errorCode === '200'){
-         
-          this.router.navigate(['dashboard']);
-        }
-       
-      
-         
+    console.log(this.selectedGroup); // returns selected object
+    if(this.selectedGroup===1){
+      this.productService.getValByPDF().subscribe((response: any) => {
+        const blob = new Blob([response], { type: 'string' });
+        const url= window.URL.createObjectURL(blob);     
+        const link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = url;
+        link.download="report.pdf";
+        link.click(); 
       });
-    
-  }
-  
-  // this.productService.findAll().subscribe(data => {
-  //   this.rows = data;
-  //   console.log(this.productsList);
-  //   this.dataSource =  new MatTableDataSource(data)
-    
-  // }); 
+    } 
+    else if(this.selectedGroup===2){
+      this.productService.getValByExcel().subscribe((response: any) => {
+        const blob = new Blob([response], { type: 'string' });
+        const url= window.URL.createObjectURL(blob);     
+        const link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = url;
+        link.download="report.xlsx";
+        link.click(); 
+      });
+
+    }
+    else{
+      this.productService.getValByCSV().subscribe((response: any) => {
+        const blob = new Blob([response], { type: 'string' });
+        const url= window.URL.createObjectURL(blob);     
+        const link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = url;
+        link.download="report.csv";
+        link.click(); 
+      });
+
+    }
+
+}
 
   groups = [{
       "id": 1,
